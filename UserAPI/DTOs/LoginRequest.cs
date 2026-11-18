@@ -5,7 +5,7 @@ namespace UserAPI.DTOs
     public class LoginRequest
     {
         [Required]
-        public string? Username { get; set; }
+        public string? DisplayName { get; set; }
         [Required]
         public string? Password { get; set; }
     }
