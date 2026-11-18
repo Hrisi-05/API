@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<APIContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("APIConnection")));  
+    options.UseSqlServer(builder.Configuration.GetConnectionString("APIConnection")));
 
 
 var app = builder.Build();

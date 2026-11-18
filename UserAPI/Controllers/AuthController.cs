@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserAPI.Data;
 using UserAPI.Models;
+using UserAPI.DTOs;
 
 namespace UserAPI.Controllers
 {
@@ -18,13 +19,26 @@ namespace UserAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(string email, string password, string displayName)
+        public async Task<ActionResult<UserResponse>> Register(RegisterRequest registerRequest)
         {
-            return NoContent();
+            var email = registerRequest.Email.ToLower();
+            if (await _context.Users.AnyAsync(u => u.Email == email))
+                return BadRequest("Email already exists");
+
+            var user = new User
+            {
+                Email = registerRequest.Email,
+                DisplayName = registerRequest.DisplayName
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Register), new { email = user.Email }, user);
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
             return NoContent();
         }
