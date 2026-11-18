@@ -12,8 +12,8 @@ using UserAPI.Data;
 namespace UserAPI.Migrations;
 
 [DbContext(typeof(APIContext))]
-[Migration("20261117140052_InitialCreate")]
-partial class _20261117140052_InitialCreate
+[Migration("20261118143951_InitialCreate")]
+partial class _20261118143951_InitialCreate
 {
     /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,18 +37,19 @@ partial class _20261117140052_InitialCreate
                     .HasColumnType("datetime2");
 
                 b.Property<string>("DisplayName")
-                    .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
                 b.Property<string>("Email")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
+                    .HasColumnType("nvarchar(450)");
 
                 b.Property<string>("PasswordHash")
-                    .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
                 b.HasKey("UserId");
+
+                b.HasIndex("Email")
+                    .IsUnique()
+                    .HasFilter("[Email] IS NOT NULL");
 
                 b.ToTable("Users");
             });

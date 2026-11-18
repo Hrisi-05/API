@@ -16,7 +16,7 @@ partial class APIContextModelSnapshot : ModelSnapshot
     // If you encounter a merge conflict in the line below, it means you need to
     // discard one of the migration branches and recreate its migrations on top of
     // the other branch. See https://aka.ms/efcore-docs-migrations-conflicts for more info.
-    public override string LastMigrationId => "20261117140052_InitialCreate";
+    public override string LastMigrationId => "20261118143951_InitialCreate";
 
     protected override void BuildModel(ModelBuilder modelBuilder)
     {
@@ -39,18 +39,19 @@ partial class APIContextModelSnapshot : ModelSnapshot
                     .HasColumnType("datetime2");
 
                 b.Property<string>("DisplayName")
-                    .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
                 b.Property<string>("Email")
-                    .IsRequired()
-                    .HasColumnType("nvarchar(max)");
+                    .HasColumnType("nvarchar(450)");
 
                 b.Property<string>("PasswordHash")
-                    .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
                 b.HasKey("UserId");
+
+                b.HasIndex("Email")
+                    .IsUnique()
+                    .HasFilter("[Email] IS NOT NULL");
 
                 b.ToTable("Users");
             });
