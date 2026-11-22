@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using UserAPI.Models;
 
 namespace UserAPI.Data
 {
-    public class APIContext : IdentityDbContext<IdentityUser>
+    public class APIContext : DbContext
     {
         public APIContext(DbContextOptions<APIContext> options) : base(options){}
 
+        public DbSet<User> Users { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
