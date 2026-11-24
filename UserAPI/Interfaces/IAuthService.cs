@@ -6,6 +6,8 @@ namespace UserAPI.Interfaces
     {
         Task<ServiceResult<UserResponse>> RegisterAsync(RegisterRequest request);
         Task<ServiceResult<LoginResponse>> LoginAsync(LoginRequest request);
+        Task ForgotPasswordAsync(string email);
+        Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
     }
 }
 
