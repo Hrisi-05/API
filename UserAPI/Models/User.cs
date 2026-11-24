@@ -9,7 +9,8 @@
         public DateTime CreatedAt { get; set; }
         public string? PasswordResetTokenHash { get; set; }
         public DateTime? PasswordResetExpiresAt { get; set; }
-        
+        public bool TwoFactorEnabled { get; set; }
+        public string? TwoFactorSecret { get; set; }
 
     }
 }
