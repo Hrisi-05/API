@@ -16,7 +16,7 @@ partial class APIContextModelSnapshot : ModelSnapshot
     // If you encounter a merge conflict in the line below, it means you need to
     // discard one of the migration branches and recreate its migrations on top of
     // the other branch. See https://aka.ms/efcore-docs-migrations-conflicts for more info.
-    public override string LastMigrationId => "20261121154950_CreateUsersTable";
+    public override string LastMigrationId => "20261124095009_AddTwoFactor";
 
     protected override void BuildModel(ModelBuilder modelBuilder)
     {
@@ -48,6 +48,18 @@ partial class APIContextModelSnapshot : ModelSnapshot
 
                 b.Property<string>("PasswordHash")
                     .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<DateTime?>("PasswordResetExpiresAt")
+                    .HasColumnType("datetime2");
+
+                b.Property<string>("PasswordResetTokenHash")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<bool>("TwoFactorEnabled")
+                    .HasColumnType("bit");
+
+                b.Property<string>("TwoFactorSecret")
                     .HasColumnType("nvarchar(max)");
 
                 b.HasKey("UserId");
