@@ -16,14 +16,16 @@ public class AuthService : IAuthService
     private readonly ITokenService _tokens;
     private readonly IEmailService _emailService;
     private readonly IConfiguration _config;
+    private readonly ITwoFactorService _twoFactor;
 
-    public AuthService(APIContext context, IPasswordHasher<User> hasher, ITokenService tokens, IEmailService emailService, IConfiguration config)
+    public AuthService(APIContext context, IPasswordHasher<User> hasher, ITokenService tokens, IEmailService emailService, IConfiguration config, ITwoFactorService twoFactor)
     {
         _context = context;
         _hasher = hasher;
         _tokens = tokens;
         _emailService = emailService;
         _config = config;
+        _twoFactor = twoFactor;
     }
 
     public async Task<ServiceResult<UserResponse>> RegisterAsync(RegisterRequest registerRequest)
@@ -61,7 +63,17 @@ public class AuthService : IAuthService
         if (result == PasswordVerificationResult.Failed)
             return ServiceResult<LoginResponse>.Fail(ServiceError.Unauthorized, error);
 
-        return ServiceResult<LoginResponse>.Ok(new LoginResponse
+        if (user.TwoFactorEnabled)
+        {
+            if (string.IsNullOrWhiteSpace(loginRequest.TwoFactorCode))
+                return ServiceResult<LoginResponse>.Fail(ServiceError.TwoFactorRequired, "2FA_REQUIRED");
+
+            if (!_twoFactor.Verify(user, loginRequest.TwoFactorCode))
+                    return ServiceResult<LoginResponse>.Fail(ServiceError.Unauthorized, "Невалиден код");
+        }
+
+
+            return ServiceResult<LoginResponse>.Ok(new LoginResponse
         {
             Token = _tokens.CreateToken(user),
             User = UserMapper.ToResponse(user)

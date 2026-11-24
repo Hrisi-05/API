@@ -10,6 +10,7 @@ public static class UserMapper
         UserId = user.UserId,
         DisplayName = user.DisplayName,
         Email = user.Email,
-        CreatedAt = user.CreatedAt
+        CreatedAt = user.CreatedAt,
+        TwoFactorEnabled = user.TwoFactorEnabled 
     };
 }
