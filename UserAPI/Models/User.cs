@@ -7,5 +7,9 @@
         public string PasswordHash { get; set; } = "";
         public string DisplayName { get; set; } = "";
         public DateTime CreatedAt { get; set; }
+        public string? PasswordResetTokenHash { get; set; }
+        public DateTime? PasswordResetExpiresAt { get; set; }
+        
+
     }
 }
