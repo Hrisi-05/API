@@ -1,6 +1,6 @@
 ﻿namespace UserAPI.DTOs
 {
-    public enum ServiceError { None, NotFound,Conflict, Unauthorized }
+    public enum ServiceError { None, NotFound,Conflict, Unauthorized,TwoFactorRequired }
     public class ServiceResult<T>
     {
         public T? Data { get; private init; }
