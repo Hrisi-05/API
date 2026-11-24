@@ -10,6 +10,8 @@ namespace UserAPI.Controllers
             ServiceError.NotFound => NotFound(new { error = result.Message }),
             ServiceError.Conflict => Conflict(new { error = result.Message }),
             ServiceError.Unauthorized => Unauthorized(new { error = result.Message }),
+            ServiceError.TwoFactorRequired => 
+            Unauthorized(new { error = result.Message, requiresTwoFactor = true }),
             _ => BadRequest(new { error = result.Message })
         };
     }
